@@ -16,14 +16,14 @@ class UkmController extends Controller
         return response()->success($ukm);
     }
 
-    function read_id($id)
+    function readId($id)
     {
         $ukm = Ukm::find($id);
         if (!$ukm) throw new NotFoundHttpException;
         return response()->success($ukm);
     }
 
-    function read_category($category)
+    function readCategory($category)
     {
         $ukm = Ukm::where('category', $category)->get();
         if ($ukm->isEmpty()) throw new NotFoundHttpException;

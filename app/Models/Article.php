@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ukm extends Model
+class Article extends Model
 {
     use HasFactory;
 
-    public function article()
+    public function ukm()
     {
-        return $this->hasMany(Article::class);
+        return $this->belongsTo(Ukm::class);
     }
 }

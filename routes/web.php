@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UkmController;
+use App\Http\Controllers\ArticleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,8 +25,19 @@ Route::get('/csrf-token', function () {
 
 Route::prefix('ukms')->group(function(){
     Route::get('/', [UkmController::class, 'read']);
-    Route::get('/category/{category}', [UkmController::class, 'read_category']);
+    Route::get('/category/{category}', [UkmController::class, 'readCategory']);
     Route::get('/search/{key}', [UkmController::class, 'search']);
     Route::post('/edit/{id}', [UkmController::class, 'update']);
-    Route::get('/{id}', [UkmController::class, 'read_id']);
+    Route::get('/{id}', [UkmController::class, 'readId']);
+});
+
+Route::prefix('articles')->group(function(){
+    Route::get('/', [ArticleController::class, 'read']);
+    Route::post('/', [ArticleController::class, 'create']);
+    Route::get('/ukm/{ukm_id}', [ArticleController::class, 'readUkm']);
+    Route::get('/category/{category}', [ArticleController::class, 'readCategory']);
+    Route::get('/search/{key}', [ArticleController::class, 'search']);
+    Route::post('/edit/{id}', [ArticleController::class, 'update']);
+    Route::get('/{id}', [ArticleController::class, 'readId']);
+    Route::delete('/{id}', [ArticleController::class, 'delete']);
 });
