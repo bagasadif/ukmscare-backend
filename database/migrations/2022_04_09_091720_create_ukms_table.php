@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('member');
             $table->string('location');
             $table->string('contact');
+            $table->boolean('regist_status')->default(false);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });

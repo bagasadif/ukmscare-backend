@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call([UkmSeeder::class]);
+        $this->call([UkmSeeder::class]);
         $this->call([ArticleSeeder::class]);
+        // $this->call([UkmRegistDescriptionSeeder::class]);
     }
 }
