@@ -115,6 +115,12 @@ class UkmRegistrationController extends Controller
         return response()->success($ukmRegistration);
     }
 
+    function getRegistDescription($ukm_id){
+        $ukmRegistDescription = UkmRegistDescription::where('ukm_id', $ukm_id)->first();
+        if (!$ukmRegistDescription) throw new NotFoundHttpException;
+        return response()->success($ukmRegistDescription);
+    }
+
     function addColumn(Request $request)
     {
         $ukmRegistDescription = UkmRegistDescription::where('ukm_id', $request->ukm_id)->first();

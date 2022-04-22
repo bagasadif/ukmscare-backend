@@ -33,6 +33,7 @@ Route::prefix('ukms')->group(function(){
         Route::post('/status/{ukm_id}', [UkmRegistrationController::class, 'changeStatus']);
         Route::post('/column/add', [UkmRegistrationController::class, 'addColumn']);
         Route::post('/column/delete', [UkmRegistrationController::class, 'deleteColumn']);
+        Route::get('/description/{ukm_id}', [UkmRegistrationController::class, 'getRegistDescription']);
         Route::get('/{id}', [UkmRegistrationController::class, 'readId']);
     });
 
