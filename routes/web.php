@@ -24,6 +24,18 @@ Route::get('/csrf-token', function () {
     return csrf_token(); 
 });
 
+Auth::routes();
+
+/* User */
+Route::middleware(['auth', 'user-access:user'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index']);
+});
+
+/* Admin */
+Route::middleware(['auth', 'user-access:admin'])->group(function () {
+    Route::get('/dashboard', [HomeController::class, 'dashboard']);
+});
+
 Route::prefix('ukms')->group(function(){
     Route::get('/register', [UkmRegistrationController::class, 'register']);
     Route::prefix('registrations')->group(function(){
@@ -56,3 +68,5 @@ Route::prefix('articles')->group(function(){
     Route::get('/{id}', [ArticleController::class, 'readId']);
     Route::delete('/{id}', [ArticleController::class, 'delete']);
 });
+
+Auth::routes(['verify' => true]);
