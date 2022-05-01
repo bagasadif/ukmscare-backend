@@ -21,6 +21,12 @@ class UsersSeeder extends Seeder
                'username' => 'Bridge',
                'password'=> bcrypt('admin'),
                'role'=>'ADMIN',
+               'name' => 'admin',
+               'npm' => '140810190000',
+               'avatar' => 'assets/profile/default.jpeg',
+               'year' => '2019',
+               'faculty' => 'mipa',
+               'phone_number' => '081234567890',
             ],
             [
                'user_id'=> 2,
@@ -28,6 +34,12 @@ class UsersSeeder extends Seeder
                'username' => 'user01',
                'password'=> bcrypt('123456'),
                'role'=>'USER',
+               'name' => 'user',
+               'npm' => '140810190001',
+               'avatar' => 'assets/profile/default.jpeg',
+               'year' => '2019',
+               'faculty' => 'mipa',
+               'phone_number' => '081234567890',
             ],
         ];
     

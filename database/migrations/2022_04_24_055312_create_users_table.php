@@ -20,6 +20,12 @@ return new class extends Migration
             $table->string('username')->unique();
             $table->string('password');
             $table->string('role')->default('USER');
+            $table->string('name');
+            $table->string('npm');
+            $table->string('avatar');
+            $table->BigInteger('year');
+            $table->string('faculty');
+            $table->BigInteger('phone_number');
         });
     }
 
