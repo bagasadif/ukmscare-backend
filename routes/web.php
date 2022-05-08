@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 
 Route::get('/csrf-token', function () {
-    return csrf_token(); 
+    return response()->success(csrf_token()); 
 });
 
 Auth::routes();
@@ -37,15 +37,16 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
 });
 
 Route::prefix('ukms')->group(function(){
-    Route::get('/register', [UkmRegistrationController::class, 'register']);
     Route::prefix('registrations')->group(function(){
         Route::get('/', [UkmRegistrationController::class, 'read']);
+        Route::post('/', [UkmRegistrationController::class, 'register']);
+        Route::get('/export/{ukm_id}', [UkmRegistrationController::class, 'export']);
         Route::get('/ukm/{ukm_id}', [UkmRegistrationController::class, 'readUkm']);
         Route::get('/status/{ukm_id}', [UkmRegistrationController::class, 'checkStatus']);
         Route::post('/status/{ukm_id}', [UkmRegistrationController::class, 'changeStatus']);
-        Route::post('/column/add', [UkmRegistrationController::class, 'addColumn']);
-        Route::post('/column/delete', [UkmRegistrationController::class, 'deleteColumn']);
-        Route::get('/description/{ukm_id}', [UkmRegistrationController::class, 'getRegistDescription']);
+        Route::post('/field/add', [UkmRegistrationController::class, 'addColumn']);
+        Route::post('/field/delete', [UkmRegistrationController::class, 'deleteColumn']);
+        Route::get('/field/{ukm_id}', [UkmRegistrationController::class, 'getRegistDescription']);
         Route::get('/{id}', [UkmRegistrationController::class, 'readId']);
     });
 
@@ -54,8 +55,6 @@ Route::prefix('ukms')->group(function(){
     Route::get('/search/{key}', [UkmController::class, 'search']);
     Route::post('/edit/{id}', [UkmController::class, 'update']);
     Route::get('/{id}', [UkmController::class, 'readId']);
-    
-    
 });
 
 Route::prefix('articles')->group(function(){
