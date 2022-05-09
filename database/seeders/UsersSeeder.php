@@ -14,12 +14,12 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
+        DB::table('users')->insert([
             [
                'user_id'=> 1,
                'email' => 'bridge@mail.unpad.ac.id',
                'username' => 'Bridge',
-               'password'=> bcrypt('admin'),
+               'password'=> bcrypt('admin123'),
                'role'=>'ADMIN',
                'name' => 'admin',
                'npm' => '140810190000',
@@ -30,9 +30,9 @@ class UsersSeeder extends Seeder
             ],
             [
                'user_id'=> 2,
-               'email'=>'user190011@mail.unpad.ac.id',
-               'username' => 'user01',
-               'password'=> bcrypt('123456'),
+               'email'=>'user@mail.unpad.ac.id',
+               'username' => 'user',
+               'password'=> bcrypt('user1234'),
                'role'=>'USER',
                'name' => 'user',
                'npm' => '140810190001',
@@ -41,10 +41,6 @@ class UsersSeeder extends Seeder
                'faculty' => 'mipa',
                'phone_number' => '081234567890',
             ],
-        ];
-    
-        foreach ($users as $key => $user) {
-            User::create($user);
-        }
+        ]);
     }
 }
