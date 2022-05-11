@@ -13,4 +13,14 @@ class Ukm extends Model
     {
         return $this->hasMany(Article::class);
     }
+
+    public function ukmRegistration()
+    {
+        return $this->hasMany(UkmRegistration::class);
+    }
+
+    public function ukmRegistDescription()
+    {
+        return $this->hasOne(UkmRegistDescription::class);
+    }
 }

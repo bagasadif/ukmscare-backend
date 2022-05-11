@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class UkmRegistDescription extends Model
 {
     use HasFactory;
+
+    public function ukm()
+    {
+        return $this->belongsTo(Ukm::class);
+    }
 }

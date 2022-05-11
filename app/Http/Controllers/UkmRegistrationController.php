@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportUkmRegistration;
 use Illuminate\Http\Request;
 use App\Models\UkmRegistration;
 use App\Models\UkmRegistDescription;
 use App\Models\Ukm;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UkmRegistrationController extends Controller
 {
@@ -104,13 +106,15 @@ class UkmRegistrationController extends Controller
         for ($i = 1; $i < 5; $i++) {
             $fieldname = 'file'.$i;
             if ($request->hasFile($fieldname)) {
-                $extension = $request->file('image')->getClientOriginalExtension();
+                $extension = $request->file($fieldname)->getClientOriginalExtension();
                 $filenameSimpan = $fieldname . '.' . $extension;
 
-                $ukmRegistration->$fieldname = "assets/regist/$ukm->short_name/" . $filenameSimpan;
-                $request->file('image')->move(public_path('assets/regist/$ukm->short_name/'), $filenameSimpan);
+                $ukmRegistration->$fieldname = "assets/regist/$ukm->short_name/$ukmRegistration->id/" . $filenameSimpan;
+                $request->file($fieldname)->move(public_path("assets/regist/$ukm->short_name/$ukmRegistration->id/"), $filenameSimpan);
             }
         }
+
+        $ukmRegistration->save();
 
         return response()->success($ukmRegistration);
     }
@@ -164,5 +168,12 @@ class UkmRegistrationController extends Controller
         
         $ukmRegistDescription->save();
         return response()->success($ukmRegistDescription);
+    }
+
+    function export($ukm_id){
+        $ukm = Ukm::find($ukm_id);
+        if (!$ukm) throw new NotFoundHttpException;
+
+        return (new ExportUkmRegistration($ukm_id))->download($ukm->short_name.'.xlsx');
     }
 }

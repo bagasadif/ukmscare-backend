@@ -3,6 +3,8 @@
 use App\Http\Controllers\UkmController;
 use App\Http\Controllers\UkmRegistrationController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,16 +27,6 @@ Route::get('/csrf-token', function () {
 });
 
 Auth::routes();
-
-/* User */
-Route::middleware(['auth', 'user-access:user'])->group(function () {
-    Route::get('/home', [HomeController::class, 'index']);
-});
-
-/* Admin */
-Route::middleware(['auth', 'user-access:admin'])->group(function () {
-    Route::get('/dashboard', [HomeController::class, 'dashboard']);
-});
 
 Route::prefix('ukms')->group(function(){
     Route::prefix('registrations')->group(function(){
@@ -59,13 +51,31 @@ Route::prefix('ukms')->group(function(){
 
 Route::prefix('articles')->group(function(){
     Route::get('/', [ArticleController::class, 'read']);
-    Route::post('/', [ArticleController::class, 'create']);
+    Route::post('/', [ArticleController::class, 'create'])->middleware(['auth', 'user-access:admin']);
     Route::get('/ukm/{ukm_id}', [ArticleController::class, 'readUkm']);
     Route::get('/category/{category}', [ArticleController::class, 'readCategory']);
     Route::get('/search/{key}', [ArticleController::class, 'search']);
-    Route::post('/edit/{id}', [ArticleController::class, 'update']);
+    Route::post('/edit/{id}', [ArticleController::class, 'update'])->middleware(['auth', 'user-access:admin']);
     Route::get('/{id}', [ArticleController::class, 'readId']);
-    Route::delete('/{id}', [ArticleController::class, 'delete']);
+    Route::delete('/{id}', [ArticleController::class, 'delete'])->middleware(['auth', 'user-access:admin']);
 });
 
 Auth::routes(['verify' => true]);
+
+Route::prefix('register')->group(function(){
+    Route::get('/', [RegisterController::class, 'index']);
+    Route::post('/', [RegisterController::class, 'store']);
+});
+
+Route::prefix('login')->group(function(){
+    Route::get('/', [LoginController::class, 'login'])->middleware('guest');
+    Route::post('/', [LoginController::class, 'user']);
+    Route::post('/admin', [LoginController::class, 'admin']);
+});
+
+Route::post('/logout', [LoginController::class, 'logout']);
+
+Route::prefix('profiles')->group(function(){
+    Route::get('/', [ArticleController::class, 'read'])->middleware(['auth', 'user-access:user']);
+    Route::post('/', [ArticleController::class, 'update']);
+});
