@@ -3,9 +3,11 @@
 use App\Http\Controllers\UkmController;
 use App\Http\Controllers\UkmRegistrationController;
 use App\Http\Controllers\ArticleController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
+// use App\Http\Controllers\LoginController;
+// use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +28,6 @@ Route::get('/', function () {
 Route::get('/csrf-token', function () {
     return response()->success(csrf_token()); 
 });
-
-Auth::routes();
-Auth::routes(['verify' => true]);
 
 Route::prefix('ukms')->group(function(){
     Route::prefix('registrations')->group(function(){
@@ -62,19 +61,23 @@ Route::prefix('articles')->group(function(){
     Route::delete('/{id}', [ArticleController::class, 'delete'])->middleware(['auth', 'user-access:admin']);
 });
 
-Route::prefix('auth')->group(function(){
-    Route::get('/register', [RegisterController::class, 'index']);
-    Route::post('/register', [RegisterController::class, 'store']);
-    Route::get('/login', [LoginController::class, 'loginUser'])->middleware('guest');
-    Route::post('/login', [LoginController::class, 'user']);
-    Route::get('/login-admin', [LoginController::class, 'loginAdmin'])->middleware('guest');
-    Route::post('/login-admin', [LoginController::class, 'admin']);
-    Route::post('/logout', [LoginController::class, 'logout']);
-});
-
 Route::prefix('profiles')->group(function(){
     Route::get('/{id}', [ProfileController::class, 'read']);
     Route::post('/edit/{id}', [ProfileController::class, 'update']);
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [AuthController::class, 'postRegistrationForm'])->name('register.post');
+Route::get('login', [AuthController::class, 'showLoginUser'])->name('loginUser');
+Route::post('login', [AuthController::class, 'postLoginUser'])->name('loginUser.post');
+Route::get('login-admin', [AuthController::class, 'showLoginAdmin'])->name('loginAdmin');
+Route::post('login-admin', [AuthController::class, 'postLoginAdmin'])->name('loginAdmin.post');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
+
+Route::get('dashboard', [AuthController::class, 'dashboard'])->middleware(['auth', 'is_verify_email']); 
+Route::get('account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
