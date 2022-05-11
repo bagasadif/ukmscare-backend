@@ -62,17 +62,17 @@ Route::prefix('articles')->group(function(){
 });
 
 Route::prefix('profiles')->group(function(){
-    Route::get('/{id}', [ProfileController::class, 'read']);
+    Route::get('/{id}', [ProfileController::class, 'read'])->middleware(['auth', 'is_verify_email']);
     Route::post('/edit/{id}', [ProfileController::class, 'update']);
 });
 
-Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register')->middleware('guest');
 Route::post('register', [AuthController::class, 'postRegistrationForm'])->name('register.post');
-Route::get('login', [AuthController::class, 'showLoginUser'])->name('loginUser');
+Route::get('login', [AuthController::class, 'showLoginUser'])->name('loginUser')->middleware('guest');
 Route::post('login', [AuthController::class, 'postLoginUser'])->name('loginUser.post');
-Route::get('login-admin', [AuthController::class, 'showLoginAdmin'])->name('loginAdmin');
+Route::get('login-admin', [AuthController::class, 'showLoginAdmin'])->name('loginAdmin')->middleware('guest');
 Route::post('login-admin', [AuthController::class, 'postLoginAdmin'])->name('loginAdmin.post');
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
 
 Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
 Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
