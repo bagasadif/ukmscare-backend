@@ -15,17 +15,19 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->BigInteger('user_id');
+            // $table->BigInteger('user_id');
             $table->string('email')->unique();
             $table->string('username')->unique();
-            $table->string('password');
-            $table->string('role')->default('USER');
-            $table->string('name');
-            $table->string('npm');
-            $table->string('avatar');
-            $table->BigInteger('year');
-            $table->string('faculty');
-            $table->BigInteger('phone_number');
+            $table->string('password')->nullable();
+            $table->string('role')->default('user');
+            $table->string('name')->nullable();
+            $table->string('npm')->nullable();
+            $table->string('avatar')->nullable();
+            $table->BigInteger('year')->nullable();
+            $table->string('faculty')->nullable();
+            $table->BigInteger('phone_number')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->rememberToken();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrentOnUpdate()->nullable();
         });

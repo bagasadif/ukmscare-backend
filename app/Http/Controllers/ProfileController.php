@@ -3,13 +3,20 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Illuminate\Support\Facades\File;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
-    function read()
+    function read($id)
     {
-        $profile = Profile::all();
-        return response()->success($profile);
+        $user = user::find($id);
+        if (!$user) throw new NotFoundHttpException;
+        return response()->success($user);
     }
 
     function update($id, Request $request)
@@ -21,6 +28,8 @@ class ProfileController extends Controller
             'year' => ['sometimes', 'nullable', 'integer', 'max:4'],
             'faculty' => ['sometimes', 'nullable', 'string', 'max:50'],
             'phone_number' => ['sometimes', 'nullable', 'integer', 'max:13'],
+            'email' => ['sometimes', 'string', 'email', 'unique:users'],
+            'password' => ['sometimes', 'string', 'min:8'],
         ]);
 
         if ($validator->fails()) {
@@ -28,32 +37,32 @@ class ProfileController extends Controller
             return response()->failed($fieldsWithErrorMessagesArray, 400);
         }
 
-        $profile = Profile::find($id);
+        $user = user::find($id);
 
-        $profile->name = $request->name ? $request->name : $profile->name;
-        $profile->npm = $request->npm ? $request->npm : $profile->npm;
-        $profile->desc = $request->desc ? $request->desc : $profile->desc;
-        $profile->category = $request->category ? $request->category : $profile->category;
-        $profile->year = $request->year ? $request->year : $profile->year;
-        $profile->faculty = $request->faculty ? $request->faculty : $profile->faculty;
-        $profile->phone_number = $request->phone_number ? $request->phone_number : $profile->phone_number;
-
+        $user->name = $request->name ? $request->name : $user->name;
+        $user->npm = $request->npm ? $request->npm : $user->npm;
+        $user->year = $request->year ? $request->year : $user->year;
+        $user->faculty = $request->faculty ? $request->faculty : $user->faculty;
+        $user->phone_number = $request->phone_number ? $request->phone_number : $user->phone_number;
+        $user->email = $request->email ? $request->email : $user->email;
+        $user->password = bcrypt($request->password) ? bcrypt($request->password) : $user->password;
+        
         if ($request->hasFile('avatar')) {
             $filenameWithExt = $request->file('avatar')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('avatar')->getClientOriginalExtension();
             $filenameSimpan = $filename . '_' . time() . '.' . $extension;
 
-            if ($profile->avatar != null) {
-                File::delete(public_path("$profile->avatar"));
+            if ($user->avatar != null) {
+                File::delete(public_path("$user->avatar"));
             }
 
-            $profile->avatar = 'assets/profile/' . $filenameSimpan;
+            $user->avatar = 'assets/profile/' . $filenameSimpan;
             $request->file('avatar')->move(public_path('assets/profile'), $filenameSimpan);
         }
 
-        $profile->save();
+        $user->save();
 
-        return response()->success($profile);
+        return response()->success($user);
     }
 }

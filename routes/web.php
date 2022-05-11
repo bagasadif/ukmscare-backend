@@ -5,6 +5,7 @@ use App\Http\Controllers\UkmRegistrationController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,6 +28,7 @@ Route::get('/csrf-token', function () {
 });
 
 Auth::routes();
+Auth::routes(['verify' => true]);
 
 Route::prefix('ukms')->group(function(){
     Route::prefix('registrations')->group(function(){
@@ -60,22 +62,19 @@ Route::prefix('articles')->group(function(){
     Route::delete('/{id}', [ArticleController::class, 'delete'])->middleware(['auth', 'user-access:admin']);
 });
 
-Auth::routes(['verify' => true]);
-
-Route::prefix('register')->group(function(){
-    Route::get('/', [RegisterController::class, 'index']);
-    Route::post('/', [RegisterController::class, 'store']);
+Route::prefix('auth')->group(function(){
+    Route::get('/register', [RegisterController::class, 'index']);
+    Route::post('/register', [RegisterController::class, 'store']);
+    Route::get('/login', [LoginController::class, 'loginUser'])->middleware('guest');
+    Route::post('/login', [LoginController::class, 'user']);
+    Route::get('/login-admin', [LoginController::class, 'loginAdmin'])->middleware('guest');
+    Route::post('/login-admin', [LoginController::class, 'admin']);
+    Route::post('/logout', [LoginController::class, 'logout']);
 });
-
-Route::prefix('login')->group(function(){
-    Route::get('/', [LoginController::class, 'login'])->middleware('guest');
-    Route::post('/', [LoginController::class, 'user']);
-    Route::post('/admin', [LoginController::class, 'admin']);
-});
-
-Route::post('/logout', [LoginController::class, 'logout']);
 
 Route::prefix('profiles')->group(function(){
-    Route::get('/', [ArticleController::class, 'read'])->middleware(['auth', 'user-access:user']);
-    Route::post('/', [ArticleController::class, 'update']);
+    Route::get('/{id}', [ProfileController::class, 'read']);
+    Route::post('/edit/{id}', [ProfileController::class, 'update']);
 });
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
