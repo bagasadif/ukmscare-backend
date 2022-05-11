@@ -19,6 +19,6 @@ class UserAccess
         if(auth()->user()->role == $userRole){
             return $next($request);
         }
-
+        return response()->failed('Object not found', 404);
     }
 }

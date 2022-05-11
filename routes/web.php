@@ -3,8 +3,6 @@
 use App\Http\Controllers\UkmController;
 use App\Http\Controllers\UkmRegistrationController;
 use App\Http\Controllers\ArticleController;
-// use App\Http\Controllers\LoginController;
-// use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
