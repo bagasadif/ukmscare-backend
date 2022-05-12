@@ -11,6 +11,7 @@ use App\Models\User;
 use Session;
 use Hash;
 use Mail;
+use DB; 
 
 class AuthController extends Controller
 {
@@ -52,7 +53,11 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
             // return redirect()->intended('dashboard')->withSuccess('Berhasil Login!');
-            return response()->postSuccess($credentials, 'Berhasil login!');
+            // return response()->postSuccess($credentials, 'Berhasil login!');
+            $user = DB::table('users')->where(['username' => $request->username])
+            ->join('ukms', 'users.name', '=', 'ukms.name')            
+            ->get(['username', 'password', 'ukms.name', 'ukms.id']);
+            return response()->postSuccess($user, 'Berhasil login!');
         }
         // return redirect("login")->withSuccess('Username dan Password Salah!');
         return response()->failed('Object not found', 404);

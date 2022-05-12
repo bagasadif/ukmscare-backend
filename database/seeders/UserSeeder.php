@@ -18,20 +18,61 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
-               'email' => 'bridge@mail.unpad.ac.id',
-               'username' => 'bridge',
+               'email' => 'uku@mail.unpad.ac.id',
+               'username' => 'uku',
                'password'=> bcrypt('admin123'),
                'role'=>'admin',
-               'name' => 'Admin Bridge',
-               'npm' => '140810190000',
+               'name' => 'Unit Karate Unpad',
                'avatar' => 'assets/profile/default.png',
-               'year' => '2019',
-               'faculty' => 'mipa',
-               'phone_number' => '081234567890',
+               'is_email_verified' => '1'
+            ],
+            [
+               'email' => 'mpup@mail.unpad.ac.id',
+               'username' => 'mpup',
+               'password'=> bcrypt('admin123'),
+               'role'=>'admin',
+               'name' => 'Merpati Putih Unpad',
+               'avatar' => 'assets/profile/default.png',
+               'is_email_verified' => '1'
+            ],
+            [
+               'email' => 'ubtu@mail.unpad.ac.id',
+               'username' => 'ubtu',
+               'password'=> bcrypt('admin123'),
+               'role'=>'admin',
+               'name' => 'Unit Bulu Tangkis Unpad',
+               'avatar' => 'assets/profile/default.png',
+               'is_email_verified' => '1'
+            ],
+            [
+               'email' => 'uru@mail.unpad.ac.id',
+               'username' => 'uru',
+               'password'=> bcrypt('admin123'),
+               'role'=>'admin',
+               'name' => 'Unit Renang Unpad',
+               'avatar' => 'assets/profile/default.png',
+               'is_email_verified' => '1'
+            ],
+            [
+               'email' => 'psm@mail.unpad.ac.id',
+               'username' => 'psm',
+               'password'=> bcrypt('admin123'),
+               'role'=>'admin',
+               'name' => 'Paduan Suara Mahasiswa Universitas Padjadjaran',
+               'avatar' => 'assets/profile/default.png',
+               'is_email_verified' => '1'
+            ],
+            [
+               'email' => 'spdc@mail.unpad.ac.id',
+               'username' => 'spdc',
+               'password'=> bcrypt('admin123'),
+               'role'=>'admin',
+               'name' => 'Sadaluhung Padjadjaran Drum Corps',
+               'avatar' => 'assets/profile/default.png',
+               'is_email_verified' => '1'
             ],
             [
                'email'=>'user@mail.unpad.ac.id',
-               'username' => 'user',
                'password'=> bcrypt('user1234'),
                'role'=>'user',
                'name' => 'User1',
@@ -40,6 +81,18 @@ class UserSeeder extends Seeder
                'year' => '2019',
                'faculty' => 'mipa',
                'phone_number' => '081234567890',
+               'is_email_verified' => '1'
+            ],
+            [
+               'email'=>'johndoe@mail.unpad.ac.id',
+               'password'=> bcrypt('user1234'),
+               'role'=>'user',
+               'name' => 'John Doe',
+               'npm' => '140810190002',
+               'avatar' => 'assets/profile/default.png',
+               'year' => '2019',
+               'faculty' => 'mipa',
+               'phone_number' => '081223334444'
             ],
         ]);
     }
