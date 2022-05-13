@@ -15,12 +15,17 @@ class UkmRegistDescriptionSeeder extends Seeder
     public function run()
     {
         DB::table('ukm_regist_descriptions')->insert([
-            ['ukm_id' => 1],
-            ['ukm_id' => 2],
-            ['ukm_id' => 3],
-            ['ukm_id' => 4],
-            ['ukm_id' => 5],
-            ['ukm_id' => 6]
+            [
+                'id' => 1,
+                'ukm_id' => 1
+            ],
+            [
+                'id' => 2, 'ukm_id' => 2
+            ],
+            ['id' => 3, 'ukm_id' => 3],
+            ['id' => 4, 'ukm_id' => 4],
+            ['id' => 5, 'ukm_id' => 5],
+            ['id' => 6, 'ukm_id' => 6]
         ]);
     }
 }

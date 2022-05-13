@@ -18,6 +18,7 @@ class UserSeeder extends Seeder
     {
         DB::table('users')->insert([
             [
+               'id' => 1,
                'email' => 'uku@mail.unpad.ac.id',
                'username' => 'uku',
                'password'=> bcrypt('admin123'),
@@ -31,6 +32,7 @@ class UserSeeder extends Seeder
                'is_email_verified' => '1'
             ],
             [
+               'id' => 2,
                'email' => 'mpup@mail.unpad.ac.id',
                'username' => 'mpup',
                'password'=> bcrypt('admin123'),
@@ -44,6 +46,7 @@ class UserSeeder extends Seeder
                'is_email_verified' => '1'
             ],
             [
+               'id' => 3,
                'email' => 'ubtu@mail.unpad.ac.id',
                'username' => 'ubtu',
                'password'=> bcrypt('admin123'),
@@ -57,6 +60,7 @@ class UserSeeder extends Seeder
                'is_email_verified' => '1'
             ],
             [
+               'id' => 4,
                'email' => 'uru@mail.unpad.ac.id',
                'username' => 'uru',
                'password'=> bcrypt('admin123'),
@@ -70,6 +74,7 @@ class UserSeeder extends Seeder
                'is_email_verified' => '1'
             ],
             [
+               'id' => 5,
                'email' => 'psm@mail.unpad.ac.id',
                'username' => 'psm',
                'password'=> bcrypt('admin123'),
@@ -83,6 +88,7 @@ class UserSeeder extends Seeder
                'is_email_verified' => '1'
             ],
             [
+               'id' => 6,
                'email' => 'spdc@mail.unpad.ac.id',
                'username' => 'spdc',
                'password'=> bcrypt('admin123'),
@@ -96,6 +102,7 @@ class UserSeeder extends Seeder
                'is_email_verified' => '1'
             ],
             [
+               'id' => 7,
                'email'=>'user@mail.unpad.ac.id',
                'username' => null,
                'password'=> bcrypt('user1234'),
@@ -109,6 +116,7 @@ class UserSeeder extends Seeder
                'is_email_verified' => '1'
             ],
             [
+               'id' => 8,
                'email'=>'johndoe@mail.unpad.ac.id',
                'username' => null,
                'password'=> bcrypt('user1234'),

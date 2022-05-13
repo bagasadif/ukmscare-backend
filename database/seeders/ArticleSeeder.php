@@ -16,6 +16,7 @@ class ArticleSeeder extends Seeder
     {
         DB::table('articles')->insert([
             [
+                'id' => 1,
                 'ukm_id' => 5,
                 'subject' => 'Kaleidoskop PSM Unpad 2021: PSM Unpad Di Era New Normal',
                 'slug' => 'kaleidoskop-psm-unpad-2021:-psm-unpad-di-era-new-normal',
@@ -27,6 +28,7 @@ class ArticleSeeder extends Seeder
                 'image' => 'assets/article/1.png',
             ],
             [
+                'id' => 2,
                 'ukm_id' => 5,
                 'subject' => 'Pertemuan Perdana Rangkaian Penerimaan Anggota Baru 2021',
                 'slug' => 'pertemuan-perdana-rangkaian-penerimaan-anggota-baru-2021',
@@ -38,6 +40,7 @@ class ArticleSeeder extends Seeder
             'image' => 'assets/article/2.jpg',
             ],
             [
+                'id' => 3,
                 'ukm_id' => 3,
                 'subject' => 'Juara 1 Perseorangan Tunggal Putra',
                 'slug' => 'juara-1-perseorangan-tunggal-putra',
@@ -49,6 +52,7 @@ class ArticleSeeder extends Seeder
             'image' => 'assets/article/3.jpg',
             ],
             [
+                'id' => 4,
                 'ukm_id' => 5,
                 'subject' => 'Konser Intern 2021 "Orpheus: Suara Indah Yang Memikat"',
                 'slug' => 'konser-intern-2021-"orpheus:-suara-indah-yang-memikat"',
@@ -60,6 +64,7 @@ class ArticleSeeder extends Seeder
             'image' => 'assets/article/4.jpg',
             ],
             [
+                'id' => 5,
                 'ukm_id' => 1,
                 'subject' => 'Juara 1 Kumite 75kg Brawijaya Karate Championship University',
                 'slug' => 'juara-1-kumite-75kg-brawijaya-karate-championship-university',
@@ -71,6 +76,7 @@ class ArticleSeeder extends Seeder
             'image' => 'assets/article/5.jpg',
             ],
             [
+                'id' => 6,
                 'ukm_id' => 2,
                 'subject' => 'Kejuaraan Nasional Universitas Brawijaya',
                 'slug' => 'kejuaraan-nasional-universitas-brawijaya',
@@ -82,6 +88,7 @@ class ArticleSeeder extends Seeder
             'image' => 'assets/article/6.png',
             ],
             [
+                'id' => 7,
                 'ukm_id' => 3,
                 'subject' => 'UBTU Home Tournament',
                 'slug' => 'ubtu-home-tournament',
@@ -93,6 +100,7 @@ class ArticleSeeder extends Seeder
             'image' => 'assets/article/7.jfif',
             ],
             [
+                'id' => 8,
                 'ukm_id' => 4,
                 'subject' => 'First Meet Calon Anggota Uru 2021',
                 'slug' => 'first-meet-calon-anggota-uru-2021',
