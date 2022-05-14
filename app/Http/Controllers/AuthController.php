@@ -31,7 +31,10 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             // return redirect()->intended('dashboard')->withSuccess('Berhasil Login!');
-            return response()->postSuccess($credentials, 'Berhasil login!');
+            // return response()->postSuccess($credentials, 'Berhasil login!');
+            $user = DB::table('users')->where(['username' => $request->username])           
+            ->get(['users.id', 'username', 'password']);
+            return response()->postSuccess($user, 'Berhasil login!');
         }
         // return redirect("login")->withSuccess('Email dan Password Salah!');
         return response()->failed('Object not found', 404);
@@ -56,7 +59,7 @@ class AuthController extends Controller
             // return response()->postSuccess($credentials, 'Berhasil login!');
             $user = DB::table('users')->where(['username' => $request->username])
             ->join('ukms', 'users.name', '=', 'ukms.name')            
-            ->get(['username', 'password', 'ukms.name', 'ukms.id']);
+            ->get(['users.id', 'username', 'password', 'ukms.name', 'ukms.id']);
             return response()->postSuccess($user, 'Berhasil login!');
         }
         // return redirect("login")->withSuccess('Username dan Password Salah!');

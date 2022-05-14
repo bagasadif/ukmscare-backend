@@ -23,11 +23,11 @@ class ProfileController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => ['sometimes', 'nullable', 'string', 'max:255'],
-            'npm' => ['sometimes', 'nullable', 'integer', 'max:12'],
+            'npm' => ['sometimes', 'nullable', 'integer'],
             'avatar' => ['sometimes', 'nullable', 'image', 'file', 'max:2048'],
-            'year' => ['sometimes', 'nullable', 'integer', 'max:4'],
+            'year' => ['sometimes', 'nullable', 'integer'],
             'faculty' => ['sometimes', 'nullable', 'string', 'max:50'],
-            'phone_number' => ['sometimes', 'nullable', 'integer', 'max:13'],
+            'phone_number' => ['sometimes', 'nullable', 'string', 'max:13'],
             'email' => ['sometimes', 'string', 'email', 'unique:users'],
             'password' => ['sometimes', 'string', 'min:8'],
         ]);
