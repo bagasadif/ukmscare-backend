@@ -32,7 +32,7 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             // return redirect()->intended('dashboard')->withSuccess('Berhasil Login!');
             // return response()->postSuccess($credentials, 'Berhasil login!');
-            $user = DB::table('users')->where(['username' => $request->username])           
+            $user = DB::table('users')->where(['email' => $request->email])           
             ->get(['users.id', 'username', 'password']);
             return response()->postSuccess($user, 'Berhasil login!');
         }
