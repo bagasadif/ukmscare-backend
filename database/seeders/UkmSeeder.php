@@ -16,6 +16,7 @@ class UkmSeeder extends Seeder
     {
         DB::table('ukms')->insert([
             [
+                'id' => 1,
                 'name' => 'Unit Karate Unpad',
                 'short_name' => 'UKU',
                 'desc' => 'Unit Karate Unpad (UKU)  merupakan unit kegiatan mahasiswa yang bergerak dalam bidang seni bela diri karate. Pada awalnya UKU merupakan komunitas yang didirikan oleh para atlet yang mengenyam pendidikan di Unpad, agar mereka tetap bisa latihan bersama di tengah kesibukan kuliah. Namun seiring berjalannya waktu, akhirnya komunitas tersebut berkembang menjadi unit kegiatan mahasiswa. 
@@ -33,6 +34,7 @@ class UkmSeeder extends Seeder
                 'contact' => 'unitkarateunpad@yahoo.com',
             ],
             [
+                'id' => 2,
                 'name' => 'Merpati Putih Unpad',
                 'short_name' => 'MPUP',
                 'desc' => 'UKM Merpati Putih Unpad diresmikan pada tahun 1996. UKM Merpati Putih Unpad sering mengikuti kejuaraan-kejuaraan pencak silat, baik ditingkat regional maupun nasional. Dari keikutsertaan beberapa kejuaraan yang diikuti, UKM Merpati Putih Unpad berhasil meraih beberapa prestasi yang membanggakan. 
@@ -46,6 +48,7 @@ class UkmSeeder extends Seeder
                 'contact' => 'merpatiputih_unpad@yahoo.co.id',
             ],
             [
+                'id' => 3,
                 'name' => 'Unit Bulu Tangkis Unpad',
                 'short_name' => 'UBTU',
                 'desc' => 'Unit Bulu Tangkis Unpad (UBTU) didirikan pada 19 Desember 1986. Pada perkembangannya, UBTU tidak hanya sebagai tempat berkumpul mahasiswa yang hobi bermain bulu tangkis saja, namun untuk menampung dan mengembangkan potensi yang dimiliki mahasiswa Unpad dalam bidang bulu tangkis. UBTU juga tidak hanya untuk mahasiswa Unpad yang telah mahir dalam bermain bulu tangkis. Mahasiswa Unpad yang ingin belajar dalam keorganisasian (managerial) UBTU juga dapat bergabung. Tidak ada persyaratan khusus untuk menjadi anggota UBTU, cukup dengan registrasi awal.
@@ -59,6 +62,7 @@ class UkmSeeder extends Seeder
                 'contact' => 'ubtuholic@gmail.com',
             ],
             [
+                'id' => 4,
                 'name' => 'Unit Renang Unpad',
                 'short_name' => 'URU',
                 'desc' => 'Unit Renang Unpad (URU) didirikan pada tanggal 1 Oktober 1988. Pada mulanya, URU merupakan sarana untuk berkumpul dan latihan untuk orang-orang yang ingin menyalurkan hobi renangnya. Dengan semakin berkembangnya UKM renang ini, anggota yang bergabung tidak hanya mereka yang jago berenang, tapi juga mereka yang tidak bisa berenang namun memiliki ketertarikan untuk belajar berenang. 
@@ -76,6 +80,7 @@ class UkmSeeder extends Seeder
                 'contact' => 'unitrenangunpad1988@gmail.com',
             ],
             [
+                'id' => 5,
                 'name' => 'Paduan Suara Mahasiswa Universitas Padjadjaran',
                 'short_name' => 'PSM Unpad',
                 'desc' => 'Paduan Suara Mahasiswa Universitas Padjadjaran (PSM Unpad) merupakan sebuah organisasi kemahasiswaan yang terbentuk pada tahun 1978. PSM Unpad beranggotakan 137 mahasiswa aktif dari berbagai disiplin ilmu. PSM Unpad berkembang sebagai salah satu unit kegiatan mahasiswa yang berperan penting dalam kegiatan-kegiatan protokoler dan seremonial di lingkungan Universitas Padjadjaran. Selain itu, PSM Unpad juga dikenal sebagai unit kegiatan mahasiswa terbesar di Universitas Padjadjaran dengan manajemen kemahasiswaan yang kuat. Dengan kata lain, unit kegiatan mahasiswa ini dapat menjadi sarana bagi para anggotanya untuk mengembangkan kemampuan bernyanyi maupun berorganisasi. 
@@ -89,6 +94,7 @@ class UkmSeeder extends Seeder
                 'contact' => 'unpadchoir@yahoo.com',
             ],
             [
+                'id' => 6,
                 'name' => 'Sadaluhung Padjadjaran Drum Corps',
                 'short_name' => 'SPDC',
                 'desc' => 'Sadaluhung Padjadjaran Drum Corps (SPDC) merupakan salah satu marching band tertua di Indonesia. Didirikan pada tanggal 21 Desember 1984, dan diresmikan oleh Menteri Pendidikan dan Kebudayaan Republik Indonesia saat itu, yaitu Prof. Dr. Nugroho Notosusanto. 

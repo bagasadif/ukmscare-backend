@@ -50,32 +50,41 @@ Route::prefix('ukms')->group(function(){
 
 Route::prefix('articles')->group(function(){
     Route::get('/', [ArticleController::class, 'read']);
-    Route::post('/', [ArticleController::class, 'create'])->middleware(['auth', 'user-access:admin']);
+    // Route::post('/', [ArticleController::class, 'create'])->middleware(['auth', 'user-access:admin']);
+    Route::post('/', [ArticleController::class, 'create']);
     Route::get('/ukm/{ukm_id}', [ArticleController::class, 'readUkm']);
     Route::get('/category/{category}', [ArticleController::class, 'readCategory']);
     Route::get('/search/{key}', [ArticleController::class, 'search']);
-    Route::post('/edit/{id}', [ArticleController::class, 'update'])->middleware(['auth', 'user-access:admin']);
+    // Route::post('/edit/{id}', [ArticleController::class, 'update'])->middleware(['auth', 'user-access:admin']);
+    Route::post('/edit/{id}', [ArticleController::class, 'update']);
     Route::get('/{id}', [ArticleController::class, 'readId']);
-    Route::delete('/{id}', [ArticleController::class, 'delete'])->middleware(['auth', 'user-access:admin']);
+    // Route::delete('/{id}', [ArticleController::class, 'delete'])->middleware(['auth', 'user-access:admin']);
+    Route::delete('/{id}', [ArticleController::class, 'delete']);
 });
 
 Route::prefix('profiles')->group(function(){
-    Route::get('/{id}', [ProfileController::class, 'read'])->middleware(['auth', 'is_verify_email']);
+    // Route::get('/{id}', [ProfileController::class, 'read'])->middleware(['auth', 'is_verify_email']);
+    Route::get('/{id}', [ProfileController::class, 'read']);
     Route::post('/edit/{id}', [ProfileController::class, 'update']);
 });
 
-Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register')->middleware('guest');
+// Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register')->middleware('guest');
+Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [AuthController::class, 'postRegistrationForm'])->name('register.post');
-Route::get('login', [AuthController::class, 'showLoginUser'])->name('loginUser')->middleware('guest');
+// Route::get('login', [AuthController::class, 'showLoginUser'])->name('loginUser')->middleware('guest');
+Route::get('login', [AuthController::class, 'showLoginUser'])->name('loginUser');
 Route::post('login', [AuthController::class, 'postLoginUser'])->name('loginUser.post');
-Route::get('login-admin', [AuthController::class, 'showLoginAdmin'])->name('loginAdmin')->middleware('guest');
+// Route::get('login-admin', [AuthController::class, 'showLoginAdmin'])->name('loginAdmin')->middleware('guest');
+Route::get('login-admin', [AuthController::class, 'showLoginAdmin'])->name('loginAdmin');
 Route::post('login-admin', [AuthController::class, 'postLoginAdmin'])->name('loginAdmin.post');
-Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+// Route::get('logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
 Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post'); 
 Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
 Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
-Route::get('dashboard', [AuthController::class, 'dashboard'])->middleware(['auth', 'is_verify_email']); 
+// Route::get('dashboard', [AuthController::class, 'dashboard'])->middleware(['auth', 'is_verify_email']); 
+Route::get('dashboard', [AuthController::class, 'dashboard']); 
 Route::get('account/verify/{token}', [AuthController::class, 'verifyAccount'])->name('user.verify');
