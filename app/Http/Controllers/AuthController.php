@@ -33,7 +33,7 @@ class AuthController extends Controller
             // return redirect()->intended('dashboard')->withSuccess('Berhasil Login!');
             // return response()->postSuccess($credentials, 'Berhasil login!');
             $user = DB::table('users')->where(['email' => $request->email])           
-            ->get(['users.id', 'username', 'password']);
+            ->get(['id', 'email', 'password']);
             return response()->postSuccess($user, 'Berhasil login!');
         }
         // return redirect("login")->withSuccess('Email dan Password Salah!');
@@ -101,7 +101,7 @@ class AuthController extends Controller
     {
         return User::create([
             'email' => $data['email'],
-            'password' => Hash::make($data['password'])
+            'password' => $data['password']
         ]);
     }
 
