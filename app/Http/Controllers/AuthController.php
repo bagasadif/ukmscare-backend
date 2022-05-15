@@ -84,15 +84,15 @@ class AuthController extends Controller
 
         $token = Str::random(64);
   
-        UserVerify::create([
-              'user_id' => $createUser->id, 
-              'token' => $token
-        ]);
+        // UserVerify::create([
+        //       'user_id' => $createUser->id, 
+        //       'token' => $token
+        // ]);
   
-        Mail::send('email.emailVerification', ['token' => $token], function($message) use($request){
-              $message->to($request->email);
-              $message->subject('Email Verification Mail');
-        });       
+        // Mail::send('email.emailVerification', ['token' => $token], function($message) use($request){
+        //       $message->to($request->email);
+        //       $message->subject('Email Verification Mail');
+        // });       
         // return redirect("login")->withSuccess('Registrasi Berhasil, Silakan Login!');
         return response()->submitSuccess($data, $token, 'Registrasi berhasil, silakan login!');
     }
@@ -105,27 +105,27 @@ class AuthController extends Controller
         ]);
     }
 
-    public function verifyAccount($token)
-    {
-        $verifyUser = UserVerify::where('token', $token)->first();
+    // public function verifyAccount($token)
+    // {
+    //     $verifyUser = UserVerify::where('token', $token)->first();
   
-        $message = 'Email tidak terdaftar!';
+    //     $message = 'Email tidak terdaftar!';
   
-        if(!is_null($verifyUser) ){
-            $user = $verifyUser->user;
+    //     if(!is_null($verifyUser) ){
+    //         $user = $verifyUser->user;
               
-            if(!$user->is_email_verified) {
-                $verifyUser->user->is_email_verified = 1;
-                $verifyUser->user->save();
-                $message = "Email terverifikasi, silakan login.";
-            } else {
-                $message = "Email sudah terverifikasi, silakan login.";
-            }
-        }
+    //         if(!$user->is_email_verified) {
+    //             $verifyUser->user->is_email_verified = 1;
+    //             $verifyUser->user->save();
+    //             $message = "Email terverifikasi, silakan login.";
+    //         } else {
+    //             $message = "Email sudah terverifikasi, silakan login.";
+    //         }
+    //     }
   
-    //   return redirect()->route('loginUser')->with('message', $message);
-      return response()->success($message);
-    }
+    // //   return redirect()->route('loginUser')->with('message', $message);
+    //   return response()->success($message);
+    // }
 
     public function dashboard()
     {
