@@ -45,7 +45,7 @@ class ProfileController extends Controller
         $user->faculty = $request->faculty ? $request->faculty : $user->faculty;
         $user->phone_number = $request->phone_number ? $request->phone_number : $user->phone_number;
         $user->email = $request->email ? $request->email : $user->email;
-        $user->password = bcrypt($request->password) ? bcrypt($request->password) : $user->password;
+        $user->password = ($request->password) ? ($request->password) : $user->password;
         
         if ($request->hasFile('avatar')) {
             $filenameWithExt = $request->file('avatar')->getClientOriginalName();
