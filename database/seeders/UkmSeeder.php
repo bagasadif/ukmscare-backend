@@ -87,7 +87,7 @@ class UkmSeeder extends Seeder
                 
                 Dalam eksistensinya di dunia paduan suara, PSM Unpad telah berhasil menjuarai berbagai kompetisi, baik nasional maupun internasional. Tidak hanya itu, PSM Unpad juga turut dipercaya untuk tampil dalam beragam acara seremonial dan hiburan besar yang bekerjasama dengan berbagai instansi dan juga musisi, baik nasional maupun internasional, karena reputasi yang dimilikinya. Namun demikian, PSM Unpad pun hingga kini terus meningkatkan prestasinya sebagai salah satu paduan suara terbaik di Indonesia.',
                 'category' => 'Kesenian',
-                'avatar' => 'assets/ukm/logo/PSM-Unpad',
+                'avatar' => 'assets/ukm/logo/PSM-Unpad.jpg',
                 'date' => '3x/minggu pukul 16.00 WIB',
                 'member' => 'Lebih dari 100 orang',
                 'location' => 'Bale Wilasa Timur',
