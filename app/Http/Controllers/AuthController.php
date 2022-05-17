@@ -20,24 +20,29 @@ class AuthController extends Controller
         // return view('auth.loginUser');
         return response()->success('Halaman Login User');
     }
-
+    
     public function postLoginUser(Request $request)
     {
         $request->validate([
             'email' => 'required',
             'password' => 'required|min:8'
         ]);
-
+        
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             // return redirect()->intended('dashboard')->withSuccess('Berhasil Login!');
             // return response()->postSuccess($credentials, 'Berhasil login!');
             $user = DB::table('users')->where(['email' => $request->email])           
             ->get(['id', 'email', 'password']);
+            if (auth()->user()->is_email_verified == 0)
+            {
+                auth()->logout();
+                return response()->failed('Email anda belum terverifikasi', 404);
+            }
             return response()->postSuccess($user, 'Berhasil login!');
         }
         // return redirect("login")->withSuccess('Email dan Password Salah!');
-        return response()->failed('Object not found', 404);
+        return response()->failed('Email dan Password Salah!', 404);
     }
     
     public function showLoginAdmin()
@@ -60,10 +65,15 @@ class AuthController extends Controller
             $user = DB::table('users')->where(['username' => $request->username])
             ->join('ukms', 'users.name', '=', 'ukms.name')            
             ->get(['users.id', 'username', 'password', 'ukms.name', 'ukms.id']);
+            if (auth()->user()->is_email_verified == 0)
+            {
+                auth()->logout();
+                return response()->failed('Email anda belum terverifikasi', 404);
+            }
             return response()->postSuccess($user, 'Berhasil login!');
         }
         // return redirect("login")->withSuccess('Username dan Password Salah!');
-        return response()->failed('Object not found', 404);
+        return response()->failed('Username dan Password Salah!', 404);
     }
 
     public function showRegistrationForm()
