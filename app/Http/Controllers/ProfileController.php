@@ -9,6 +9,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -45,7 +46,11 @@ class ProfileController extends Controller
         $user->faculty = $request->faculty ? $request->faculty : $user->faculty;
         $user->phone_number = $request->phone_number ? $request->phone_number : $user->phone_number;
         $user->email = $request->email ? $request->email : $user->email;
-        $user->password = ($request->password) ? ($request->password) : $user->password;
+        if($request->password != NULL)
+        {
+            $user->password = bcrypt($request->password);
+        }
+        $user->password = ($user->password);
         
         if ($request->hasFile('avatar')) {
             $filenameWithExt = $request->file('avatar')->getClientOriginalName();
