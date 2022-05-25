@@ -52,18 +52,40 @@ class ProfileController extends Controller
         }
         $user->password = ($user->password);
         
+        // if ($request->hasFile('avatar')) {
+        //     $filenameWithExt = $request->file('avatar')->getClientOriginalName();
+        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        //     $extension = $request->file('avatar')->getClientOriginalExtension();
+        //     $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+
+        //     if ($user->avatar != null) {
+        //         File::delete(public_path("$user->avatar"));
+        //     }
+
+        //     $user->avatar = 'assets/profile/' . $filenameSimpan;
+        //     $request->file('avatar')->move(public_path('assets/profile'), $filenameSimpan);
+        // }
+
         if ($request->hasFile('avatar')) {
             $filenameWithExt = $request->file('avatar')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('avatar')->getClientOriginalExtension();
-            $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+            $filenameSimpan = $filename . '-' . time();
 
-            if ($user->avatar != null) {
-                File::delete(public_path("$user->avatar"));
-            }
+            $target_url = 'https://api.imgbb.com/1/upload?key=' . env('IMGBB_KEY');
 
-            $user->avatar = 'assets/profile/' . $filenameSimpan;
-            $request->file('avatar')->move(public_path('assets/profile'), $filenameSimpan);
+            $cFile = curl_file_create($request->file('avatar'), $extension, $filenameSimpan);
+            $post = array('image' => $cFile); // Parameter to be sent
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $target_url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = json_decode(curl_exec($ch));
+            curl_close($ch);
+            
+            $user->avatar = $result->data->image->url;
         }
 
         $user->save();

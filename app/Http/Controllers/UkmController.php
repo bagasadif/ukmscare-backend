@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Ukm;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Illuminate\Support\Facades\File;
+// use Illuminate\Support\Facades\File;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
 class UkmController extends Controller
 {
@@ -35,7 +37,7 @@ class UkmController extends Controller
         $query = Ukm::query();
         $columns = ['name', 'short_name', 'category'];
         foreach ($columns as $column) {
-            $query->orWhere($column, 'LIKE', '%'.$key.'%');
+            $query->orWhere($column, 'LIKE', '%' . $key . '%');
         }
         $ukm = $query->get();
         if ($ukm->isEmpty()) throw new NotFoundHttpException;
@@ -72,18 +74,40 @@ class UkmController extends Controller
         $ukm->location = $request->location ? $request->location : $ukm->location;
         $ukm->contact = $request->contact ? $request->contact : $ukm->contact;
 
+        // if ($request->hasFile('avatar')) {
+        //     $filenameWithExt = $request->file('avatar')->getClientOriginalName();
+        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        //     $extension = $request->file('avatar')->getClientOriginalExtension();
+        //     $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+
+        //     if ($ukm->avatar != null) {
+        //         File::delete(public_path("$ukm->avatar"));
+        //     }
+
+        //     $ukm->avatar = 'assets/ukm/logo/' . $filenameSimpan;
+        //     $request->file('avatar')->move(public_path('assets/ukm/logo'), $filenameSimpan);
+        // }
+
         if ($request->hasFile('avatar')) {
             $filenameWithExt = $request->file('avatar')->getClientOriginalName();
             $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('avatar')->getClientOriginalExtension();
-            $filenameSimpan = $filename . '_' . time() . '.' . $extension;
+            $filenameSimpan = $filename . '-' . time();
 
-            if ($ukm->avatar != null) {
-                File::delete(public_path("$ukm->avatar"));
-            }
+            $target_url = 'https://api.imgbb.com/1/upload?key=' . env('IMGBB_KEY');
 
-            $ukm->avatar = 'assets/ukm/logo/' . $filenameSimpan;
-            $request->file('avatar')->move(public_path('assets/ukm/logo'), $filenameSimpan);
+            $cFile = curl_file_create($request->file('avatar'), $extension, $filenameSimpan);
+            $post = array('image' => $cFile); // Parameter to be sent
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $target_url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = json_decode(curl_exec($ch));
+            curl_close($ch);
+            
+            $ukm->avatar = $result->data->image->url;
         }
 
         $ukm->save();

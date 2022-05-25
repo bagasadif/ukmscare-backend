@@ -76,12 +76,34 @@ class ArticleController extends Controller
 
         $article->save();
 
-        if ($request->hasFile('image')) {
-            $extension = $request->file('image')->getClientOriginalExtension();
-            $filenameSimpan = $article->id . '.'. $extension;
+        // if ($request->hasFile('image')) {
+        //     $extension = $request->file('image')->getClientOriginalExtension();
+        //     $filenameSimpan = $article->id . '.'. $extension;
 
-            $article->image = 'assets/article/' . $filenameSimpan;
-            $request->file('image')->move(public_path('assets/article/'), $filenameSimpan);
+        //     $article->image = 'assets/article/' . $filenameSimpan;
+        //     $request->file('image')->move(public_path('assets/article/'), $filenameSimpan);
+        // }
+
+        if ($request->hasFile('image')) {
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $filenameSimpan = $filename . '-' . time();
+
+            $target_url = 'https://api.imgbb.com/1/upload?key=' . env('IMGBB_KEY');
+
+            $cFile = curl_file_create($request->file('image'), $extension, $filenameSimpan);
+            $post = array('image' => $cFile); // Parameter to be sent
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $target_url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = json_decode(curl_exec($ch));
+            curl_close($ch);
+
+            $article->image = $result->data->image->url;
         }
 
         $article->save();
@@ -111,17 +133,40 @@ class ArticleController extends Controller
             $article->slug =  Str::slug($request->subject, '-');
         $article->content = $request->content ? $request->content : $article->content;
 
+        // if ($request->hasFile('image')) {
+        //     $extension = $request->file('image')->getClientOriginalExtension();
+        //     $filenameSimpan = $article->id . '.' . $extension;
+
+        //     if ($article->image != null) {
+        //         File::delete(public_path("$article->image"));
+        //     }
+
+        //     $article->image = 'assets/article/' . $filenameSimpan;
+        //     $request->file('image')->move(public_path('assets/article/'), $filenameSimpan);
+        // }
+
         if ($request->hasFile('image')) {
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
-            $filenameSimpan = $article->id . '.'. $extension;
+            $filenameSimpan = $filename . '-' . time();
 
-            if ($article->image != null) {
-                File::delete(public_path("$article->image"));
-            }
+            $target_url = 'https://api.imgbb.com/1/upload?key=' . env('IMGBB_KEY');
 
-            $article->image = 'assets/article/' . $filenameSimpan;
-            $request->file('image')->move(public_path('assets/article/'), $filenameSimpan);
+            $cFile = curl_file_create($request->file('image'), $extension, $filenameSimpan);
+            $post = array('image' => $cFile); // Parameter to be sent
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $target_url);
+            curl_setopt($ch, CURLOPT_POST, 1);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = json_decode(curl_exec($ch));
+            curl_close($ch);
+
+            $article->image = $result->data->image->url;
         }
+
 
         $article->save();
 
@@ -134,6 +179,6 @@ class ArticleController extends Controller
         if (!$article) throw new NotFoundHttpException;
         $article->delete();
 
-        return response()->success('article with id='.$id .' has been deleted');
+        return response()->success('article with id=' . $id . ' has been deleted');
     }
 }

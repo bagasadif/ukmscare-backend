@@ -78,10 +78,10 @@ class UkmRegistrationController extends Controller
             'field3' => ['string', 'max:255', 'sometimes', 'nullable'],
             'field4' => ['string', 'max:255', 'sometimes', 'nullable'],
             'field5' => ['string', 'max:255', 'sometimes', 'nullable'],
-            'file1' => ['file', 'max:2048', 'sometimes', 'nullable'],
-            'file2' => ['file', 'max:2048', 'sometimes', 'nullable'],
-            'file3' => ['file', 'max:2048', 'sometimes', 'nullable'],
-            'file4' => ['file', 'max:2048', 'sometimes', 'nullable'],
+            'file1' => ['file', 'image', 'max:2048', 'sometimes', 'nullable'],
+            'file2' => ['file', 'image', 'max:2048', 'sometimes', 'nullable'],
+            'file3' => ['file', 'image', 'max:2048', 'sometimes', 'nullable'],
+            'file4' => ['file', 'image', 'max:2048', 'sometimes', 'nullable'],
         ]);
 
         if ($validator->fails()) {
@@ -93,24 +93,44 @@ class UkmRegistrationController extends Controller
 
         $ukmRegistration->ukm_id = $request->ukm_id;
         $ukmRegistration->user_id = $request->user_id;
-        $ukmRegistration->field1 = $request->field1;
-        $ukmRegistration->field2 = $request->field2;
-        $ukmRegistration->field3 = $request->field3;
-        $ukmRegistration->field4 = $request->field4;
-        $ukmRegistration->field5 = $request->field5;
+        // $ukmRegistration->field1 = $request->field1;
+        // $ukmRegistration->field2 = $request->field2;
+        // $ukmRegistration->field3 = $request->field3;
+        // $ukmRegistration->field4 = $request->field4;
+        // $ukmRegistration->field5 = $request->field5;
 
         $ukmRegistration->save();
 
         $ukm = Ukm::find($request->ukm_id);
 
         for ($i = 1; $i < 5; $i++) {
-            $fieldname = 'file'.$i;
+            $fieldname = 'file' . $i;
             if ($request->hasFile($fieldname)) {
-                $extension = $request->file($fieldname)->getClientOriginalExtension();
-                $filenameSimpan = $fieldname . '.' . $extension;
+                // $extension = $request->file($fieldname)->getClientOriginalExtension();
+                // $filenameSimpan = $fieldname . '.' . $extension;
 
-                $ukmRegistration->$fieldname = "assets/regist/$ukm->short_name/$ukmRegistration->id/" . $filenameSimpan;
-                $request->file($fieldname)->move(public_path("assets/regist/$ukm->short_name/$ukmRegistration->id/"), $filenameSimpan);
+                // $ukmRegistration->$fieldname = "assets/regist/$ukm->short_name/$ukmRegistration->id/" . $filenameSimpan;
+                // $request->file($fieldname)->move(public_path("assets/regist/$ukm->short_name/$ukmRegistration->id/"), $filenameSimpan);
+
+                $filenameWithExt = $request->file($fieldname)->getClientOriginalName();
+                $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+                $extension = $request->file($fieldname)->getClientOriginalExtension();
+                $filenameSimpan = $filename . '-' . time();
+
+                $target_url = 'https://api.imgbb.com/1/upload?key=' . env('IMGBB_KEY');
+
+                $cFile = curl_file_create($request->file($fieldname), $extension, $filenameSimpan);
+                $post = array('image' => $cFile); // Parameter to be sent
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $target_url);
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = json_decode(curl_exec($ch));
+                curl_close($ch);
+
+                $ukmRegistration->$fieldname = $result->data->image->url;
             }
         }
 
@@ -119,7 +139,8 @@ class UkmRegistrationController extends Controller
         return response()->success($ukmRegistration);
     }
 
-    function getRegistDescription($ukm_id){
+    function getRegistDescription($ukm_id)
+    {
         $ukmRegistDescription = UkmRegistDescription::where('ukm_id', $ukm_id)->first();
         if (!$ukmRegistDescription) throw new NotFoundHttpException;
         return response()->success($ukmRegistDescription);
@@ -140,10 +161,10 @@ class UkmRegistrationController extends Controller
             $fieldsWithErrorMessagesArray = $validator->messages()->get('*');
             return response()->failed($fieldsWithErrorMessagesArray, 400);
         }
-        
+
         $name = $request->name;
         $ukmRegistDescription->$name = $request->value;
-        
+
         $ukmRegistDescription->save();
         return response()->success($ukmRegistDescription);
     }
@@ -165,15 +186,16 @@ class UkmRegistrationController extends Controller
 
         $name = $request->name;
         $ukmRegistDescription->$name = null;
-        
+
         $ukmRegistDescription->save();
         return response()->success($ukmRegistDescription);
     }
 
-    function export($ukm_id){
+    function export($ukm_id)
+    {
         $ukm = Ukm::find($ukm_id);
         if (!$ukm) throw new NotFoundHttpException;
 
-        return (new ExportUkmRegistration($ukm_id))->download($ukm->short_name.'.xlsx');
+        return (new ExportUkmRegistration($ukm_id))->download($ukm->short_name . '.xlsx');
     }
 }
