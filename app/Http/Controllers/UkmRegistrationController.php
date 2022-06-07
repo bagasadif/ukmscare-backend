@@ -93,15 +93,15 @@ class UkmRegistrationController extends Controller
 
         $ukmRegistration->ukm_id = $request->ukm_id;
         $ukmRegistration->user_id = $request->user_id;
-        // $ukmRegistration->field1 = $request->field1;
-        // $ukmRegistration->field2 = $request->field2;
-        // $ukmRegistration->field3 = $request->field3;
-        // $ukmRegistration->field4 = $request->field4;
-        // $ukmRegistration->field5 = $request->field5;
+        $ukmRegistration->field1 = $request->field1;
+        $ukmRegistration->field2 = $request->field2;
+        $ukmRegistration->field3 = $request->field3;
+        $ukmRegistration->field4 = $request->field4;
+        $ukmRegistration->field5 = $request->field5;
 
         $ukmRegistration->save();
 
-        $ukm = Ukm::find($request->ukm_id);
+        // $ukm = Ukm::find($request->ukm_id);
 
         for ($i = 1; $i < 5; $i++) {
             $fieldname = 'file' . $i;
